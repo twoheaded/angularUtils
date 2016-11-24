@@ -34,6 +34,10 @@
             template: '<div id="disqus_thread"></div><a href="http://disqus.com" class="dsq-brlink"></a>',
             link: function (scope) {
 
+                // Fix 'TypeError: Cannot read property 'disqus_shortname' of undefined' in line:
+                // ...if (!scope.config.disqus_shortname || !scope.config.disqus_identifier || !scope.config.disqus_url) {...
+                scope.config = {};
+
                 scope.$watch('config', configChanged, true);
 
                 function configChanged() {
