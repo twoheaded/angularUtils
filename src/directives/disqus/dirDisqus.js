@@ -34,13 +34,15 @@
             template: '<div id="disqus_thread"></div><a href="http://disqus.com" class="dsq-brlink"></a>',
             link: function (scope) {
 
-                // Fix 'TypeError: Cannot read property 'disqus_shortname' of undefined' in line:
-                // ...if (!scope.config.disqus_shortname || !scope.config.disqus_identifier || !scope.config.disqus_url) {...
-                scope.config = {};
-
                 scope.$watch('config', configChanged, true);
 
                 function configChanged() {
+
+                    // Fix 'TypeError: Cannot read property 'disqus_shortname' of undefined' in line:
+                    // ...if (!scope.config.disqus_shortname || !scope.config.disqus_identifier || !scope.config.disqus_url) {...
+                    if (typeof scope.config === 'undefined'){
+                        return;
+                    }
 
                     // Ensure that the disqus_identifier and disqus_url are both set, otherwise we will run in to identifier conflicts when using URLs with "#" in them
                     // see http://help.disqus.com/customer/portal/articles/662547-why-are-the-same-comments-showing-up-on-multiple-pages-
